@@ -1,0 +1,39 @@
+#!/bin/sh
+
+
+dec2bin(){
+	local out=""
+
+	for n in $@ ; do
+		out=$out' '$(printf '%0*d' 8 $(echo "obase=2;$n" | bc))
+	done
+
+	echo $out
+}
+
+bin2dec(){
+	local out=""
+
+	for n in $@ ; do
+		out=$out' '$(echo "obase=10;ibase=2;$n" | bc)
+	done
+
+	echo $out
+}
+
+usage(){
+	echo Usage: $0 cmd arg1 arg2 ...
+}
+
+cmd=$1
+shift
+
+case "$cmd" in
+dec2bin|bin2dec|usage)
+	$cmd $@
+	;;
+*)
+	usage
+	;;
+esac
+
